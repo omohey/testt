@@ -67,6 +67,8 @@ const ReviewsCarousel = ({ title, allowTouch = false, isArabic, reviews, variant
                     onReachBeginning={handleSwiperState}
                     onSlideChange={handleSwiperState}
                     onSliderMove={handleSwiperState}
+                    onNavigationPrev={handleSwiperState}
+                    onNavigationNext={handleSwiperState}
                     onBeforeInit={(swiper) => {
                         setIsBeginning(swiper.isBeginning);
                         setIsEnd(swiper.isEnd);
