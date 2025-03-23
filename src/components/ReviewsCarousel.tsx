@@ -62,10 +62,11 @@ const ReviewsCarousel = ({ title, allowTouch = false, isArabic, reviews, variant
                     slidesPerView="auto"
                     allowTouchMove={allowTouch}
                     modules={[Navigation]}
-                    onNavigationNext={handleSwiperState}
-                    onNavigationPrev={handleSwiperState}
-                    onSlideChange={handleSwiperState}
                     onInit={handleSwiperState}
+                    onReachEnd={handleSwiperState}
+                    onReachBeginning={handleSwiperState}
+                    onSlideChange={handleSwiperState}
+                    onSliderMove={handleSwiperState}
                     onBeforeInit={(swiper) => {
                         setIsBeginning(swiper.isBeginning);
                         setIsEnd(swiper.isEnd);
