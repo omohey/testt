@@ -10,6 +10,7 @@ import Modal from './ListingPage/Modal';
 import Filters, { TCategoryFilter } from './ListingPage/Filters';
 import Pagination from './ListingPage/Pagination';
 import { PRODUCTS_PER_PAGE_OPTIONS, SORT_OPTIONS } from '@/config';
+import { translations } from '@/translations';
 const Select = dynamic(() => import('react-select'), { ssr: false });
 
 const SelectStyles: StylesConfig = {
@@ -53,8 +54,9 @@ type TProps = {
     currency: string;
     onAddToCartClick: (productId: string, count?: number) => void;
     onAddToWishlistClick: (productId: string) => void;
+    isArabic?: boolean;
 }
-const ProductsGrid = ({ products, categories, currency, onAddToCartClick, onAddToWishlistClick }: TProps) => {
+const ProductsGrid = ({ products, categories, currency, onAddToCartClick, onAddToWishlistClick, isArabic }: TProps) => {
     // States
     const [productsPerPage, setProductsPerPage] = useState(PRODUCTS_PER_PAGE_OPTIONS[0]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -77,10 +79,9 @@ const ProductsGrid = ({ products, categories, currency, onAddToCartClick, onAddT
         .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage) // Paginate products
         , [products, currentPage, productsPerPage, sortOption, categoryFilter]);
 
-    // TRANSLATION
     const numberOfProductsOnPageText = useMemo(() => shouldShowPagination ?
-        `Items ${Math.min((currentPage - 1) * productsPerPage + 1, products.length)}-${Math.min(currentPage * productsPerPage, products.length)} of ${products.length}`
-        : `${renderedProducts.length} items`, [currentPage, products, productsPerPage, renderedProducts.length, shouldShowPagination]);
+        `${translations[isArabic ? "ar" : "en"].items} ${Math.min((currentPage - 1) * productsPerPage + 1, products.length)}-${Math.min(currentPage * productsPerPage, products.length)} ${translations[isArabic ? "ar" : "en"].of} ${products.length}`
+        : `${renderedProducts.length} ${translations[isArabic ? "ar" : "en"].items}`, [currentPage, products, productsPerPage, renderedProducts.length, shouldShowPagination, isArabic]);
 
     const renderHeader = useCallback(() => (
         <div className='block justify-between items-center pb-5 sm:flex'>
@@ -97,10 +98,10 @@ const ProductsGrid = ({ products, categories, currency, onAddToCartClick, onAddT
                     isSearchable={false}
                     styles={SelectStyles}
                 />
-                <DisplayOptions numberColumns={numberColumns} setNumberColumns={setNumberColumns} />
+                <DisplayOptions numberColumns={numberColumns} setNumberColumns={setNumberColumns} isArabic={isArabic} />
             </div>
         </div>
-    ), [numberOfProductsOnPageText, sortOption, numberColumns]);
+    ), [numberOfProductsOnPageText, sortOption, numberColumns, isArabic]);
 
     const renderFooter = useCallback(() => (
         shouldShowProductsPerPageDropdown &&
@@ -129,12 +130,11 @@ const ProductsGrid = ({ products, categories, currency, onAddToCartClick, onAddT
                         menuPlacement='top'
                         styles={SelectStyles}
                     />
-                    {/* TRANSLATION */}
-                    per page
+                    {translations[isArabic ? "ar" : "en"]['per-page']}
                 </div>
             </div>
         )
-    ), [shouldShowPagination, shouldShowProductsPerPageDropdown, products, productsPerPage, currentPage]);
+    ), [shouldShowPagination, shouldShowProductsPerPageDropdown, products, productsPerPage, currentPage, isArabic]);
 
     const onQuickViewClick = useCallback((product: TProduct) => {
         setQuickViewProduct(product);
@@ -149,7 +149,7 @@ const ProductsGrid = ({ products, categories, currency, onAddToCartClick, onAddT
                     gridTemplateColumns: `repeat(${numberColumns || 2}, 1fr)`,
                 }}>
                     {renderedProducts.map((product) => (
-                        <ProductBox key={product.id} data={product} variant={isList ? ProductBoxVariant.LIST : ProductBoxVariant.GRID} currency={currency} onAddToCartClick={onAddToCartClick} onAddToWishlistClick={onAddToWishlistClick} onQuickViewClick={onQuickViewClick} />
+                        <ProductBox key={product.id} data={product} variant={isList ? ProductBoxVariant.LIST : ProductBoxVariant.GRID} currency={currency} onAddToCartClick={onAddToCartClick} onAddToWishlistClick={onAddToWishlistClick} onQuickViewClick={onQuickViewClick} isArabic={isArabic} />
                     ))}
                 </div>
                 {renderFooter()}

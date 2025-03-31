@@ -5,6 +5,7 @@ import { MdCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
 
 import './Transitions.css';
 import { TCategory, TSubCategory } from '@/types/Categories';
+import { translations } from '@/translations';
 
 export type TCategoryFilter = {
     category: string;
@@ -15,9 +16,10 @@ type TProps = {
     categoryFilter: TCategoryFilter | null;
     setCategoryFilter: React.Dispatch<React.SetStateAction<TCategoryFilter | null>>;
     categories: TCategory[];
+    isArabic?: boolean;
 }
 
-const Filters = ({ categoryFilter, setCategoryFilter, categories }: TProps) => {
+const Filters = ({ categoryFilter, setCategoryFilter, categories, isArabic }: TProps) => {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isCategoryOpen, setIsCategoryOpen] = useState(true);
     const nodeRef = useRef(null);
@@ -28,20 +30,21 @@ const Filters = ({ categoryFilter, setCategoryFilter, categories }: TProps) => {
 
     const renderMobileHeader = useCallback(() => (
         <div className='border-b border-[#eee] mb-5 py-[9px] px-[30px] sm:hidden'>
-            {/* TRANSLATION */}
-            <h3 className='text-xl text-[#222]'>Filters</h3>
+
+            <h3 className='text-xl text-[#222]'>{translations[isArabic ? "ar" : "en"].filters}</h3>
             <button className='absolute top-0 right-0 text-gray-500 p-3' onClick={onClose}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-        </div>), [onClose]);
+        </div>), [onClose, isArabic]);
 
     const renderCategoryFilter = useCallback(() => (
         <div className='flex flex-col gap-4 px-[30px] pb-5 sm:p-0 flex-1'>
             <button className='flex justify-between gap-4 items-center' onClick={() => setIsCategoryOpen(!isCategoryOpen)}>
-                {/* TRANSLATION */}
-                <span className='text-lg text-[#222]'>Categories</span>
+                <span className='text-lg text-[#222]'>
+                    {translations[isArabic ? "ar" : "en"].categories}
+                </span>
                 <span>
                     {isCategoryOpen ? <FiMinus /> : <FiPlus />}
                 </span>
@@ -58,7 +61,7 @@ const Filters = ({ categoryFilter, setCategoryFilter, categories }: TProps) => {
                 </div>
             </CSSTransition>
         </div>
-    ), [categories, categoryFilter, setCategoryFilter, isCategoryOpen]);
+    ), [categories, categoryFilter, setCategoryFilter, isCategoryOpen, isArabic]);
 
 
     return (
@@ -73,7 +76,9 @@ const Filters = ({ categoryFilter, setCategoryFilter, categories }: TProps) => {
 
             {!isFilterOpen && <aside className='sm:hidden absolute left-0 top-1/2 bg-[#333] text-white shadow-md z-20 px-5 py-[5px] flex justify-center -rotate-90 rounded-sm' style={{ transformOrigin: 0, transform: "translateY(50%)" }} >
                 <button onClick={() => setIsFilterOpen(true)}>
-                    <p className='text-md text-center'>FILTER</p>
+                    <p className='text-md text-center uppercase'>
+                        {translations[isArabic ? "ar" : "en"].filters}
+                    </p>
                 </button>
             </aside >}
         </>

@@ -15,6 +15,7 @@ import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FiMinus, FiPlus } from 'react-icons/fi';
 
 import clsx from 'clsx';
+import { translations } from '@/translations';
 
 export enum ProductBoxVariant {
     LIST = "list",
@@ -32,7 +33,7 @@ type TProps = {
     onQuickViewClick?: (productId: TProduct) => void;
 };
 
-const ProductBox = ({ data, isArabic = false, variant, currency, onAddToCartClick, onAddToWishlistClick, onQuickViewClick }: TProps) => {
+const ProductBox = ({ data, isArabic, variant, currency, onAddToCartClick, onAddToWishlistClick, onQuickViewClick }: TProps) => {
     const { images, name: englishName, arabicName, price, href, tags, inStock } = data;
 
     const [currentImage, setCurrentImage] = useState(images[0]);
@@ -60,8 +61,9 @@ const ProductBox = ({ data, isArabic = false, variant, currency, onAddToCartClic
                             <button className='w-9 h-9 min-w-0 rounded-full bg-white flex justify-center items-center cursor-pointer hover:not-disabled:bg-black hover:not-disabled:text-white transition-colors duration-300 sm:hidden sm:absolute sm:bottom-4 sm:group-hover:flex sm:w-11/12 sm:h-fit disabled:opacity-50 disabled:cursor-not-allowed'
                                 onClick={(e) => { e.preventDefault(); onAddToCartClick(data.id); }} disabled={!inStock}>
                                 <FiShoppingBag size={14} className='sm:hidden' />
-                                {/* TRANSLATION */}
-                                <p className='text-xs py-2 hidden sm:block'>ADD TO CART</p>
+                                <p className='text-xs py-2 hidden sm:block'>
+                                    {translations[isArabic ? "ar" : "en"]['add-to-cart']}
+                                </p>
                             </button>
                             <button className='w-9 h-9 min-w-0 rounded-full bg-white flex justify-center items-center cursor-pointer hover:bg-black hover:text-white transition-colors duration-300 sm:hidden sm:absolute sm:top-2 sm:right-2 sm:group-hover:flex' onClick={(e) => { e.preventDefault(); onAddToWishlistClick(data.id) }}>
                                 <FaRegHeart size={14} />
@@ -74,7 +76,7 @@ const ProductBox = ({ data, isArabic = false, variant, currency, onAddToCartClic
                 </div>
                 <div className={`${variant === ProductBoxVariant.LIST ? "sm:min-w-xs" : ""} sm:py-0 pt-5 flex flex-col gap-4`}>
                     <div className={`${variant === ProductBoxVariant.LIST ? "sm:min-w-xs" : ""}`}>
-                        {/* TRANSLATION */}
+                        {/* TODO */}
                         <p className={`text-[14px] text-[#999] ${variant === ProductBoxVariant.LIST ? "text-[20px]" : ""}`}>Category</p>
                         <p className={`text-[14px] text-[#222] ${variant === ProductBoxVariant.LIST ? "text-[20px]" : ""}`}>{name}</p>
                         <p className={`text-[14px] text-[#555] ${variant === ProductBoxVariant.LIST ? "text-[20px]" : ""}`}>{price.toFixed(2)} {currency}</p>
@@ -93,12 +95,11 @@ const ProductBox = ({ data, isArabic = false, variant, currency, onAddToCartClic
                     </div>
                     {variant === ProductBoxVariant.LIST && <div className='flex gap-4 items-center '>
                         <button
-                            className='bg-[#333] text-white py-3 px-10 rounded-4xl hover:opacity-50 active:opacity-50 w-fit disabled:opacity-50 disabled:cursor-not-allowed text-[12px]'
+                            className='bg-[#333] text-white py-3 px-10 rounded-4xl hover:opacity-50 active:opacity-50 w-fit disabled:opacity-50 disabled:cursor-not-allowed text-[12px] uppercase'
                             onClick={(e) => { e.preventDefault(); onAddToCartClick(data.id); }}
                             disabled={!inStock}
                         >
-                            {/* TRANSLATION */}
-                            ADD TO CART
+                            {translations[isArabic ? "ar" : "en"]['add-to-cart']}
                         </button>
 
                         <div className='relative group'>
@@ -225,12 +226,11 @@ const QuickViewProductBox = ({ data, isArabic = false, currency, onAddToCartClic
                             onClick={() => onAddToCartClick(data.id, numberOfItems)}
                             disabled={!inStock}
                         >
-                            {/* TRANSLATION */}
-                            Add to cart
+                            {translations[isArabic ? "ar" : "en"]['add-to-cart']}
                         </button>
                     </div>
-                    {/* TRANSLATION */}
-                    <p className='text-[#999] text-[14px]'>Availability: <span className='text-black'>{inStock ? "In stock" : "Sold out"}</span></p>
+
+                    <p className='text-[#999] text-[14px]'>{`${translations[isArabic ? "ar" : "en"]['availability']}: `}<span className='text-black'>{inStock ? translations[isArabic ? "ar" : "en"]['in-stock'] : translations[isArabic ? "ar" : "en"]['sold-out']}</span></p>
                 </div>
             </div>
         </div>
