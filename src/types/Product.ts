@@ -1,0 +1,53 @@
+export type TProduct = {
+    name: string;
+    arabicName: string;
+    price: number;
+    subCategories: {
+        titleAr: string;
+        id: string;
+        value: string;
+        title: string;
+        label: string;
+    }[];
+    tags?: {
+        titleAr: string;
+        label: string;
+        value: string;
+        title: string;
+        id: string;
+    }[];
+    href?: string;
+    createdAt: number;
+    images: string[];
+    productQuantity: number | string;
+
+    tagsEn?: string;
+    productWithOutVat?: boolean;
+    hide: boolean;
+    reviews?: string;
+    description: string;
+    showProductSales: boolean;
+    productSize?: string;
+    cost: number | string;
+    popular: boolean;
+    new: boolean;
+    newPrice: number;
+    arabicDescription: string;
+    inStock: boolean;
+    packages?: boolean;
+    options: string | null;
+    sales: boolean;
+    quantity?: string;
+    ribbon?: string;
+    id: string;
+    categoryId: string;
+    acceptInternationalDelivery?: boolean;
+    video?: string[];
+    tagsAr?: string;
+    productType?: string;
+    size?: string;
+    subCategory?: string;
+    imgType?: string;
+    seoTitle?: string;
+    productSold?: number;
+};

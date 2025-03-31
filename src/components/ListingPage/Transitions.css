@@ -1,0 +1,33 @@
+.modal-enter {
+  opacity: 0;
+  transform: translateY(100%);
+}
+.modal-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 300ms;
+}
+.modal-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.modal-exit-active {
+  opacity: 0;
+  transform: translateY(100%);
+  transition: all 300ms;
+}
+
+.category-filter-enter {
+  opacity: 0;
+}
+.category-filter-enter-active {
+  opacity: 1;
+  transition: all 500ms;
+}
+.category-filter-exit {
+  opacity: 1;
+}
+.category-filter-exit-active {
+  opacity: 0;
+  transition: all 500ms;
+}
