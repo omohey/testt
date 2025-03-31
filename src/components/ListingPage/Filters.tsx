@@ -32,7 +32,7 @@ const Filters = ({ categoryFilter, setCategoryFilter, categories, isArabic }: TP
         <div className='border-b border-[#eee] mb-5 py-[9px] px-[30px] sm:hidden'>
 
             <h3 className='text-xl text-[#222]'>{translations[isArabic ? "ar" : "en"].filters}</h3>
-            <button className='absolute top-0 right-0 text-gray-500 p-3' onClick={onClose}>
+            <button className='absolute top-0 ltr:right-0 rtl:left-0 text-gray-500 p-3' onClick={onClose}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -57,7 +57,7 @@ const Filters = ({ categoryFilter, setCategoryFilter, categories, isArabic }: TP
                 unmountOnExit
             >
                 <div ref={nodeRef} className='flex flex-col gap-4 items-start w-fit'>
-                    {categories.map((category) => <Category key={category.id} category={category} categoryFilter={categoryFilter} setCategoryFilter={setCategoryFilter} />)}
+                    {categories.map((category) => <Category key={category.id} category={category} categoryFilter={categoryFilter} setCategoryFilter={setCategoryFilter} isArabic={isArabic} />)}
                 </div>
             </CSSTransition>
         </div>
@@ -70,7 +70,9 @@ const Filters = ({ categoryFilter, setCategoryFilter, categories, isArabic }: TP
                 {renderMobileHeader()}
                 {renderCategoryFilter()}
                 <div className='w-full p-5 sticky bottom-0 bg-white sm:hidden'>
-                    <button className='bg-[#333] text-white text-lg w-full py-2 active:opacity-60' onClick={onClose}>Done</button>
+                    <button className='bg-[#333] text-white text-lg w-full py-2 active:opacity-60' onClick={onClose}>
+                        {translations[isArabic ? "ar" : "en"].done}
+                    </button>
                 </div>
             </div>
 
@@ -88,9 +90,11 @@ const Filters = ({ categoryFilter, setCategoryFilter, categories, isArabic }: TP
 
 export default Filters;
 
-const Category = ({ category, categoryFilter, setCategoryFilter }: {
-    category: TCategory; categoryFilter: TCategoryFilter | null; setCategoryFilter:
+const Category = ({ category, categoryFilter, setCategoryFilter, isArabic }: {
+    category: TCategory; categoryFilter: TCategoryFilter | null;
+    setCategoryFilter:
     React.Dispatch<React.SetStateAction<TCategoryFilter | null>>;
+    isArabic?: boolean;
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const nodeRef = useRef(null);
@@ -133,7 +137,7 @@ const Category = ({ category, categoryFilter, setCategoryFilter }: {
             </button>
             <button className='flex justify-between gap-8 items-center flex-1' onClick={() => setIsOpen(!isOpen)}>
                 <span className='flex items-center gap-2 justify-between'>
-                    <p className='text-lg text-[#222]'>{category.title}</p>
+                    <p className='text-lg text-[#222]'>{isArabic ? category.titleAr : category.title}</p>
                     {isCategoryActive && !!categoryFilter?.subCategories?.length && <p className='text-sm text-[#666]'>{`(${categoryFilter?.subCategories?.length})`}</p>}
                 </span>
                 <span>
@@ -141,16 +145,16 @@ const Category = ({ category, categoryFilter, setCategoryFilter }: {
                 </span>
             </button>
         </div>
-    ), [category.title, categoryFilter?.subCategories, isCategoryActive, isOpen, onCategoryClick]);
+    ), [category, categoryFilter?.subCategories, isCategoryActive, isOpen, onCategoryClick, isArabic]);
 
     const renderSubCategory = useCallback((subCategory: TSubCategory) => (
         <button className='flex gap-4 items-center py-1' key={subCategory.id} onClick={() => onSubCategoryClick(subCategory.id)}>
             {isCategoryActive && categoryFilter.subCategories?.find(
                 (subCategoryId) => subCategoryId === subCategory.id
             ) ? <MdCheckBox size={14} /> : <MdCheckBoxOutlineBlank size={14} />}
-            <p className='text-sm text-[#333]'>{subCategory.name}</p>
+            <p className='text-sm text-[#333]'>{isArabic ? subCategory.nameAr : subCategory.name}</p>
         </button>
-    ), [categoryFilter, isCategoryActive, onSubCategoryClick]);
+    ), [categoryFilter, isCategoryActive, onSubCategoryClick, isArabic]);
 
 
     return (

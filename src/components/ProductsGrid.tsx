@@ -142,7 +142,7 @@ const ProductsGrid = ({ products, categories, currency, onAddToCartClick, onAddT
 
     return (
         <div className='w-full flex gap-10'>
-            <Filters categories={categories} categoryFilter={categoryFilter} setCategoryFilter={setCategoryFilter} />
+            <Filters categories={categories} categoryFilter={categoryFilter} setCategoryFilter={setCategoryFilter} isArabic={isArabic} />
             <div className='flex-1'>
                 {renderHeader()}
                 <div className={`grid ${isList ? "gap-0" : "gap-4"}`} style={{
@@ -155,7 +155,7 @@ const ProductsGrid = ({ products, categories, currency, onAddToCartClick, onAddT
                 {renderFooter()}
             </div>
             <Modal isOpen={!!quickViewProduct} onClose={() => setQuickViewProduct(null)}>
-                {quickViewProduct && <ProductBox data={quickViewProduct} variant={ProductBoxVariant.QUICK_VIEW} currency={currency} onAddToCartClick={onAddToCartClick} onAddToWishlistClick={onAddToWishlistClick} />}
+                {quickViewProduct && <ProductBox data={quickViewProduct} variant={ProductBoxVariant.QUICK_VIEW} currency={currency} onAddToCartClick={onAddToCartClick} onAddToWishlistClick={onAddToWishlistClick} isArabic={isArabic} />}
             </Modal>
         </div >
     )

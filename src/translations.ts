@@ -11,9 +11,10 @@ export const translations = {
         "availability": "Availability",
         "in-stock": "In stock",
         "sold-out": "Sold out",
+        "done": "Done",
     },
     ar: {
-        "items": "المنتجات",
+        "items": "منتجات",
         "of": "من",
         "per-page": "لكل صفحة",
         "list": "قائمة",
@@ -24,5 +25,6 @@ export const translations = {
         "availability": "التوفر",
         "in-stock": "متوفر",
         "sold-out": "نفذت الكمية",
+        "done": "تم",
     }
 }
