@@ -24,7 +24,7 @@ export enum ProductBoxVariant {
 }
 
 type TProps = {
-    data: TProduct;
+    data: TProduct & { category?: string };
     isArabic?: boolean;
     variant: ProductBoxVariant;
     currency: string
@@ -34,7 +34,7 @@ type TProps = {
 };
 
 const ProductBox = ({ data, isArabic, variant, currency, onAddToCartClick, onAddToWishlistClick, onQuickViewClick }: TProps) => {
-    const { images, name: englishName, arabicName, price, href, tags, inStock } = data;
+    const { images, name: englishName, arabicName, price, href, tags, inStock, category } = data;
 
     const [currentImage, setCurrentImage] = useState(images[0]);
 
@@ -76,8 +76,7 @@ const ProductBox = ({ data, isArabic, variant, currency, onAddToCartClick, onAdd
                 </div>
                 <div className={`${variant === ProductBoxVariant.LIST ? "sm:min-w-xs" : ""} sm:py-0 pt-5 flex flex-col gap-4`}>
                     <div className={`${variant === ProductBoxVariant.LIST ? "sm:min-w-xs" : ""}`}>
-                        {/* TODO */}
-                        <p className={`text-[14px] text-[#999] ${variant === ProductBoxVariant.LIST ? "text-[20px]" : ""}`}>Category</p>
+                        {category && <p className={`text-[14px] text-[#999] ${variant === ProductBoxVariant.LIST ? "text-[20px]" : ""}`}>{category}</p>}
                         <p className={`text-[14px] text-[#222] ${variant === ProductBoxVariant.LIST ? "text-[20px]" : ""}`}>{name}</p>
                         <p className={`text-[14px] text-[#555] ${variant === ProductBoxVariant.LIST ? "text-[20px]" : ""}`}>{price.toFixed(2)} {currency}</p>
                         {tags && tags.length > 0 && (

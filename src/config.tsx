@@ -82,7 +82,7 @@ export const COLUMNS_IMAGES = [
 export const PRODUCTS_PER_PAGE_OPTIONS = [12, 24, 36, 48];
 
 export const SORT_OPTIONS = [
-    { value: "newest", label: "New Arrivals", sortFn: (a: TProduct, b: TProduct) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime() },
-    { value: "price_asc", label: "Price: low to high", sortFn: (a: TProduct, b: TProduct) => a.price - b.price },
-    { value: "price_desc", label: "Price: high to low", sortFn: (a: TProduct, b: TProduct) => b.price - a.price },
+    { value: "newest", labelEn: "New Arrivals", labelAr: "وصل حديثاً", sortFn: (a: TProduct, b: TProduct) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime() },
+    { value: "price_asc", labelEn: "Price: low to high", labelAr: "السعر: من الأرخص للأعلى", sortFn: (a: TProduct, b: TProduct) => a.price - b.price },
+    { value: "price_desc", labelEn: "Price: high to low", labelAr: "السعر: الاعلى الى الادنى", sortFn: (a: TProduct, b: TProduct) => b.price - a.price },
 ];

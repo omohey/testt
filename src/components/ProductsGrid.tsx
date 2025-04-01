@@ -23,6 +23,7 @@ const SelectStyles: StylesConfig = {
         color: "#878787",
         fontSize: "14px",
         gap: "4px",
+        direction: "ltr",
     }),
 
     indicatorSeparator: (styles) => ({
@@ -61,34 +62,40 @@ const ProductsGrid = ({ products, categories, currency, onAddToCartClick, onAddT
     const [productsPerPage, setProductsPerPage] = useState(PRODUCTS_PER_PAGE_OPTIONS[0]);
     const [currentPage, setCurrentPage] = useState(1);
     const [numberColumns, setNumberColumns] = useState(3);
-    const [sortOption, setSortOption] = useState(SORT_OPTIONS[0]);
+    const [sortOption, setSortOption] = useState({ ...SORT_OPTIONS[0], label: isArabic ? SORT_OPTIONS[0].labelAr : SORT_OPTIONS[0].labelEn });
     const [categoryFilter, setCategoryFilter] = useState<TCategoryFilter | null>(null);
     const [quickViewProduct, setQuickViewProduct] = useState<TProduct | null>(null);
 
     // Variables
-    const isList = useMemo(() => numberColumns === 1, [numberColumns]);
-    const shouldShowProductsPerPageDropdown = useMemo(() => products.length > PRODUCTS_PER_PAGE_OPTIONS.reduce((acc, curr) => Math.min(acc, curr), Infinity), [products]);
-    const shouldShowPagination = useMemo(() => products.length > productsPerPage, [products, productsPerPage]);
+    const productsWithCategories = useMemo(() => products.map((product) => ({
+        ...product,
+        category: categories.find((category) => category.id === product.categoryId)?.[isArabic ? "titleAr" : "title"],
+    })), [products, categories, isArabic]);
 
-    const renderedProducts = useMemo(() => products.filter(
+    const isList = useMemo(() => numberColumns === 1, [numberColumns]);
+    const shouldShowProductsPerPageDropdown = useMemo(() => productsWithCategories.length > PRODUCTS_PER_PAGE_OPTIONS.reduce((acc, curr) => Math.min(acc, curr), Infinity), [productsWithCategories]);
+    const shouldShowPagination = useMemo(() => productsWithCategories.length > productsPerPage, [productsWithCategories, productsPerPage]);
+
+
+    const renderedProducts = useMemo(() => productsWithCategories.filter(
         (product) => !categoryFilter || // If no filter is applied, show all products
             (categoryFilter.category === product.categoryId && // If category filter is applied, show products that match the category
                 (!categoryFilter.subCategories?.length || // If no subcategories are selected, show all products in the category
                     product.subCategories?.some((subCategory) => categoryFilter.subCategories?.includes(subCategory.id))))) // If subcategories are selected, show products that match the subcategories
         .sort(sortOption.sortFn) // Sort products using sorting function from sort option
         .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage) // Paginate products
-        , [products, currentPage, productsPerPage, sortOption, categoryFilter]);
+        , [productsWithCategories, currentPage, productsPerPage, sortOption, categoryFilter]);
 
     const numberOfProductsOnPageText = useMemo(() => shouldShowPagination ?
-        `${translations[isArabic ? "ar" : "en"].items} ${Math.min((currentPage - 1) * productsPerPage + 1, products.length)}-${Math.min(currentPage * productsPerPage, products.length)} ${translations[isArabic ? "ar" : "en"].of} ${products.length}`
-        : `${renderedProducts.length} ${translations[isArabic ? "ar" : "en"].items}`, [currentPage, products, productsPerPage, renderedProducts.length, shouldShowPagination, isArabic]);
+        `${translations[isArabic ? "ar" : "en"].items} ${Math.min((currentPage - 1) * productsPerPage + 1, productsWithCategories.length)}-${Math.min(currentPage * productsPerPage, productsWithCategories.length)} ${translations[isArabic ? "ar" : "en"].of} ${productsWithCategories.length}`
+        : `${renderedProducts.length} ${translations[isArabic ? "ar" : "en"].items}`, [currentPage, productsWithCategories, productsPerPage, renderedProducts.length, shouldShowPagination, isArabic]);
 
     const renderHeader = useCallback(() => (
         <div className='block justify-between items-center pb-5 sm:flex'>
             <p className='text-sm text-[#878787]'>{numberOfProductsOnPageText}</p>
             <div className='flex gap-4 justify-end'>
                 <Select
-                    options={SORT_OPTIONS}
+                    options={SORT_OPTIONS.map((option) => ({ ...option, label: isArabic ? option.labelAr : option.labelEn }))}
                     value={sortOption}
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     onChange={(option: any) => {
@@ -110,7 +117,7 @@ const ProductsGrid = ({ products, categories, currency, onAddToCartClick, onAddT
                 {shouldShowPagination &&
                     (
                         <Pagination
-                            totalPages={Math.ceil(products.length / productsPerPage)}
+                            totalPages={Math.ceil(productsWithCategories.length / productsPerPage)}
                             currentPage={currentPage}
                             onPageChange={(page) => setCurrentPage(page)}
                         />
@@ -134,7 +141,7 @@ const ProductsGrid = ({ products, categories, currency, onAddToCartClick, onAddT
                 </div>
             </div>
         )
-    ), [shouldShowPagination, shouldShowProductsPerPageDropdown, products, productsPerPage, currentPage, isArabic]);
+    ), [shouldShowPagination, shouldShowProductsPerPageDropdown, productsWithCategories, productsPerPage, currentPage, isArabic]);
 
     const onQuickViewClick = useCallback((product: TProduct) => {
         setQuickViewProduct(product);
