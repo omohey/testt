@@ -57,7 +57,7 @@ type TProps = {
     onAddToWishlistClick: (productId: string) => void;
     isArabic?: boolean;
 }
-const ProductsGrid = ({ products, categories, currency, onAddToCartClick, onAddToWishlistClick, isArabic }: TProps) => {
+const ListingPage = ({ products, categories, currency, onAddToCartClick, onAddToWishlistClick, isArabic }: TProps) => {
     // States
     const [productsPerPage, setProductsPerPage] = useState(PRODUCTS_PER_PAGE_OPTIONS[0]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -170,4 +170,4 @@ const ProductsGrid = ({ products, categories, currency, onAddToCartClick, onAddT
 
 
 
-export default ProductsGrid
+export default ListingPage

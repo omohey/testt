@@ -1,5 +1,5 @@
 "use client";
-import ProductsGrid from "@/components/ProductsGrid";
+import ListingPage from "@/components/ListingPage";
 import { TCategory } from "@/types/Categories";
 import { TProduct } from "@/types/Product";
 
@@ -8,7 +8,7 @@ export default function Home() {
     return (
         <div className="flex items-end justify-end">
             <main className="p-[20px] py-20 w-full" >
-                <ProductsGrid products={products} categories={categories} currency="AED" onAddToCartClick={(productId, count) => { console.log(productId); console.log(count); }} onAddToWishlistClick={(productId) => { console.log(productId) }} isArabic />
+                <ListingPage products={products} categories={categories} currency="AED" onAddToCartClick={(productId, count) => { console.log(productId); console.log(count); }} onAddToWishlistClick={(productId) => { console.log(productId) }} isArabic />
             </main>
             <footer className=""></footer>
         </div>
