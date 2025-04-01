@@ -16,6 +16,7 @@ import { FiMinus, FiPlus } from 'react-icons/fi';
 
 import clsx from 'clsx';
 import { translations } from '@/translations';
+import './Transitions.css';
 
 export enum ProductBoxVariant {
     LIST = "list",
@@ -37,6 +38,7 @@ const ProductBox = ({ data, isArabic, variant, currency, onAddToCartClick, onAdd
     const { images, name: englishName, arabicName, price, href, tags, inStock, category } = data;
 
     const [currentImage, setCurrentImage] = useState(images[0]);
+    const [isImageLoading, setIsImageLoading] = useState(true);
 
     const name = isArabic ? arabicName : englishName;
     return variant === ProductBoxVariant.QUICK_VIEW ? <QuickViewProductBox data={data} isArabic={isArabic} variant={variant} currency={currency} onAddToCartClick={onAddToCartClick} onAddToWishlistClick={onAddToWishlistClick} />
@@ -54,8 +56,20 @@ const ProductBox = ({ data, isArabic, variant, currency, onAddToCartClick, onAdd
                     onMouseEnter={() => setCurrentImage(images[1] ?? images[0])}
                     onMouseLeave={() => setCurrentImage(images[0])}
                 >
+
+                    {isImageLoading && (
+                        <div className="absolute inset-0 shimmer" />
+                    )}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={currentImage} alt={data.name} className='w-full object-contain hover:transform hover:scale-105 transition-transform duration-300' />
+                    <img
+                        loading="lazy"
+                        src={currentImage}
+                        alt={data.name}
+                        className='w-full hover:transform hover:scale-105 transition-transform duration-300 aspect-square object-cover'
+                        onLoad={
+                            () => setIsImageLoading(false)
+                        }
+                    />
                     {variant === ProductBoxVariant.GRID &&
                         <div className='absolute bottom-0 left-0 right-0 w-full flex justify-center pb-2 gap-[4px] px-1 sm:[position:unset]'>
                             <button className='w-9 h-9 min-w-0 rounded-full bg-white flex justify-center items-center cursor-pointer hover:not-disabled:bg-black hover:not-disabled:text-white transition-colors duration-300 sm:hidden sm:absolute sm:bottom-4 sm:group-hover:flex sm:w-11/12 sm:h-fit disabled:opacity-50 disabled:cursor-not-allowed'
