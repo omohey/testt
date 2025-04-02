@@ -179,8 +179,7 @@ const QuickViewProductBox = ({ data, isArabic = false, currency, onAddToCartClic
                     }}>
                     {images.map((image, index) => image && (
                         <SwiperSlide key={index}>
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={image} alt={data.name} className='w-full object-contain aspect-square' />
+                            <ProductImage src={image} alt={name} />
                         </SwiperSlide>
                     ))}
                 </Swiper>
