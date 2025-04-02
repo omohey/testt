@@ -17,6 +17,7 @@ import { FiMinus, FiPlus } from 'react-icons/fi';
 import clsx from 'clsx';
 import { translations } from '@/translations';
 import './Transitions.css';
+import Image from 'next/image';
 
 export enum ProductBoxVariant {
     LIST = "list",
@@ -56,20 +57,19 @@ const ProductBox = ({ data, isArabic, variant, currency, onAddToCartClick, onAdd
                     onMouseEnter={() => setCurrentImage(images[1] ?? images[0])}
                     onMouseLeave={() => setCurrentImage(images[0])}
                 >
-
-                    {isImageLoading && (
-                        <div className="absolute inset-0 shimmer" />
-                    )}
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                        loading="lazy"
-                        src={currentImage}
-                        alt={data.name}
-                        className='w-full hover:transform hover:scale-105 transition-transform duration-300 aspect-square object-contain'
-                        onLoad={
-                            () => setIsImageLoading(false)
-                        }
-                    />
+                    <div className='w-full aspect-square'>
+                        {isImageLoading && (
+                            <div className="absolute inset-0 shimmer" />
+                        )}
+                        <Image
+                            loading="lazy"
+                            src={currentImage}
+                            alt={data.name}
+                            className='w-full hover:transform hover:scale-105 transition-transform duration-300 aspect-square object-contain'
+                            onLoad={() => setIsImageLoading(false)}
+                            fill
+                        />
+                    </div>
                     {variant === ProductBoxVariant.GRID &&
                         <div className='absolute bottom-0 left-0 right-0 w-full flex justify-center pb-2 gap-[4px] px-1 sm:[position:unset]'>
                             <button className='w-9 h-9 min-w-0 rounded-full bg-white flex justify-center items-center cursor-pointer hover:not-disabled:bg-black hover:not-disabled:text-white transition-colors duration-300 sm:hidden sm:absolute sm:bottom-4 sm:group-hover:flex sm:w-11/12 sm:h-fit disabled:opacity-50 disabled:cursor-not-allowed'
@@ -153,7 +153,7 @@ const QuickViewProductBox = ({ data, isArabic = false, currency, onAddToCartClic
                 className={`w-full overflow-hidden relative sm:max-w-[300px]`}
             >
                 <button
-                    className={clsx("bg-gray-200 w-10 h-10 p-2 rounded-full  justify-center items-center absolute top-1/2 left-2 z-5 sm:flex -translate-y-1/2", { "hidden": isBeginning })}
+                    className={clsx("bg-gray-200 w-10 h-10 p-2 rounded-full  justify-center items-center absolute top-1/2 left-2 z-5 -translate-y-1/2", { "hidden": isBeginning })}
                     disabled={isBeginning}
                     ref={navigationPrevRef}
                 >
@@ -161,7 +161,7 @@ const QuickViewProductBox = ({ data, isArabic = false, currency, onAddToCartClic
                 </button>
 
                 <button
-                    className={clsx("bg-gray-200 w-10 h-10 p-2 rounded-full justify-center items-center absolute top-1/2 right-2 z-5 sm:flex -translate-y-1/2", { ["hidden"]: isEnd })}
+                    className={clsx("bg-gray-200 w-10 h-10 p-2 rounded-full justify-center items-center absolute top-1/2 right-2 z-5 -translate-y-1/2", { ["hidden"]: isEnd })}
                     disabled={isEnd}
                     ref={navigationNextRef}
                 >
@@ -195,7 +195,7 @@ const QuickViewProductBox = ({ data, isArabic = false, currency, onAddToCartClic
                     {images.map((image, index) => image && (
                         <SwiperSlide key={index} className='!w-fit'>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={image} alt={data.name} className='w-full object-contain' />
+                            <img src={image} alt={data.name} className='w-full object-contain aspect-square' />
                         </SwiperSlide>
                     ))}
                 </Swiper>
