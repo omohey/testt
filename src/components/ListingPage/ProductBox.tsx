@@ -65,7 +65,7 @@ const ProductBox = ({ data, isArabic, variant, currency, onAddToCartClick, onAdd
                         loading="lazy"
                         src={currentImage}
                         alt={data.name}
-                        className='w-full hover:transform hover:scale-105 transition-transform duration-300 aspect-square object-cover'
+                        className='w-full hover:transform hover:scale-105 transition-transform duration-300 aspect-square object-contain'
                         onLoad={
                             () => setIsImageLoading(false)
                         }
@@ -73,7 +73,7 @@ const ProductBox = ({ data, isArabic, variant, currency, onAddToCartClick, onAdd
                     {variant === ProductBoxVariant.GRID &&
                         <div className='absolute bottom-0 left-0 right-0 w-full flex justify-center pb-2 gap-[4px] px-1 sm:[position:unset]'>
                             <button className='w-9 h-9 min-w-0 rounded-full bg-white flex justify-center items-center cursor-pointer hover:not-disabled:bg-black hover:not-disabled:text-white transition-colors duration-300 sm:hidden sm:absolute sm:bottom-4 sm:group-hover:flex sm:w-11/12 sm:h-fit disabled:opacity-50 disabled:cursor-not-allowed'
-                                onClick={(e) => { e.preventDefault(); onAddToCartClick(data.id); }} disabled={!inStock}>
+                                onClick={(e) => { e.preventDefault(); onAddToCartClick(data.id, 1); }} disabled={!inStock}>
                                 <FiShoppingBag size={14} className='sm:hidden' />
                                 <p className='text-xs py-2 hidden sm:block'>
                                     {translations[isArabic ? "ar" : "en"]['add-to-cart']}
@@ -109,7 +109,7 @@ const ProductBox = ({ data, isArabic, variant, currency, onAddToCartClick, onAdd
                     {variant === ProductBoxVariant.LIST && <div className='flex gap-4 items-center '>
                         <button
                             className='bg-[#333] text-white py-3 px-10 rounded-4xl hover:opacity-50 active:opacity-50 w-fit disabled:opacity-50 disabled:cursor-not-allowed text-[12px] uppercase'
-                            onClick={(e) => { e.preventDefault(); onAddToCartClick(data.id); }}
+                            onClick={(e) => { e.preventDefault(); onAddToCartClick(data.id, 1); }}
                             disabled={!inStock}
                         >
                             {translations[isArabic ? "ar" : "en"]['add-to-cart']}
@@ -153,7 +153,7 @@ const QuickViewProductBox = ({ data, isArabic = false, currency, onAddToCartClic
                 className={`w-full overflow-hidden relative sm:max-w-[300px]`}
             >
                 <button
-                    className={clsx("bg-gray-200 w-10 h-10 p-2 rounded-full hidden justify-center items-center absolute top-1/2 left-2 z-5 sm:flex -translate-y-1/2", { "sm:hidden": isBeginning })}
+                    className={clsx("bg-gray-200 w-10 h-10 p-2 rounded-full  justify-center items-center absolute top-1/2 left-2 z-5 sm:flex -translate-y-1/2", { "hidden": isBeginning })}
                     disabled={isBeginning}
                     ref={navigationPrevRef}
                 >
@@ -161,7 +161,7 @@ const QuickViewProductBox = ({ data, isArabic = false, currency, onAddToCartClic
                 </button>
 
                 <button
-                    className={clsx("bg-gray-200 w-10 h-10 p-2 rounded-full hidden justify-center items-center absolute top-1/2 right-2 z-5 sm:flex -translate-y-1/2", { ["sm:hidden"]: isEnd })}
+                    className={clsx("bg-gray-200 w-10 h-10 p-2 rounded-full justify-center items-center absolute top-1/2 right-2 z-5 sm:flex -translate-y-1/2", { ["hidden"]: isEnd })}
                     disabled={isEnd}
                     ref={navigationNextRef}
                 >
