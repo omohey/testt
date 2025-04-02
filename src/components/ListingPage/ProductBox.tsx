@@ -39,8 +39,6 @@ const ProductBox = ({ data, isArabic, variant, currency, onAddToCartClick, onAdd
     const { images, name: englishName, arabicName, price, href, tags, inStock, category } = data;
 
     const [currentImage, setCurrentImage] = useState(images[0]);
-    const [isImageLoading, setIsImageLoading] = useState(true);
-
     const name = isArabic ? arabicName : englishName;
     return variant === ProductBoxVariant.QUICK_VIEW ? <QuickViewProductBox data={data} isArabic={isArabic} variant={variant} currency={currency} onAddToCartClick={onAddToCartClick} onAddToWishlistClick={onAddToWishlistClick} />
         : (
@@ -57,19 +55,7 @@ const ProductBox = ({ data, isArabic, variant, currency, onAddToCartClick, onAdd
                     onMouseEnter={() => setCurrentImage(images[1] ?? images[0])}
                     onMouseLeave={() => setCurrentImage(images[0])}
                 >
-                    <div className='w-full aspect-square'>
-                        {isImageLoading && (
-                            <div className="absolute inset-0 shimmer" />
-                        )}
-                        <Image
-                            loading="lazy"
-                            src={currentImage}
-                            alt={data.name}
-                            className='w-full hover:transform hover:scale-105 transition-transform duration-300 aspect-square object-contain'
-                            onLoad={() => setIsImageLoading(false)}
-                            fill
-                        />
-                    </div>
+                    <ProductImage src={currentImage} alt={name} imageClassName='hover:transform hover:scale-105 transition-transform duration-300' />
                     {variant === ProductBoxVariant.GRID &&
                         <div className='absolute bottom-0 left-0 right-0 w-full flex justify-center pb-2 gap-[4px] px-1 sm:[position:unset]'>
                             <button className='w-9 h-9 min-w-0 rounded-full bg-white flex justify-center items-center cursor-pointer hover:not-disabled:bg-black hover:not-disabled:text-white transition-colors duration-300 sm:hidden sm:absolute sm:bottom-4 sm:group-hover:flex sm:w-11/12 sm:h-fit disabled:opacity-50 disabled:cursor-not-allowed'
@@ -159,7 +145,6 @@ const QuickViewProductBox = ({ data, isArabic = false, currency, onAddToCartClic
                 >
                     <FontAwesomeIcon icon={faArrowLeft} className='text-gray-500 rtl:-rotate-180 w-4 !h-4' />
                 </button>
-
                 <button
                     className={clsx("bg-gray-200 w-10 h-10 p-2 rounded-full justify-center items-center absolute top-1/2 right-2 z-5 -translate-y-1/2", { ["hidden"]: isEnd })}
                     disabled={isEnd}
@@ -252,3 +237,24 @@ const QuickViewProductBox = ({ data, isArabic = false, currency, onAddToCartClic
 
 
 export default ProductBox
+
+
+const ProductImage = ({ src, alt, imageClassName = "" }: { src: string, alt: string; imageClassName?: string }) => {
+    const [isImageLoading, setIsImageLoading] = useState(true);
+
+    return (
+        <div className='w-full aspect-square'>
+            {isImageLoading && (
+                <div className="absolute inset-0 shimmer" />
+            )}
+            <Image
+                loading="lazy"
+                src={src}
+                alt={alt}
+                className={`w-full aspect-square object-contain ${imageClassName}`}
+                onLoad={() => setIsImageLoading(false)}
+                fill
+            />
+        </div>
+    )
+}
