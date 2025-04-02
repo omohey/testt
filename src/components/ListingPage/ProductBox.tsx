@@ -136,7 +136,7 @@ const QuickViewProductBox = ({ data, isArabic = false, currency, onAddToCartClic
             className={`flex flex-col w-full sm:flex-row sm:gap-7`}
         >
             <div
-                className={`w-full overflow-hidden relative sm:max-w-[300px]`}
+                className={`w-full overflow-hidden relative sm:max-w-[300px] sm:min-w-[150px]`}
             >
                 <button
                     className={clsx("bg-gray-200 w-10 h-10 p-2 rounded-full  justify-center items-center absolute top-1/2 left-2 z-5 -translate-y-1/2", { "hidden": isBeginning })}
@@ -178,7 +178,7 @@ const QuickViewProductBox = ({ data, isArabic = false, currency, onAddToCartClic
                         prevEl: navigationPrevRef.current,
                     }}>
                     {images.map((image, index) => image && (
-                        <SwiperSlide key={index} className='!w-fit'>
+                        <SwiperSlide key={index}>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src={image} alt={data.name} className='w-full object-contain aspect-square' />
                         </SwiperSlide>
