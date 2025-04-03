@@ -17,3 +17,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-jost), Arial, Helvetica, sans-serif;
 }
+
+.static-position {
+  position: static !important;
+}

@@ -1,5 +1,5 @@
 "use client";
-import ProductPage from "@/components/ProductPage";
+import ListingPage from "@/components/ListingPage";
 import { TCategory } from "@/types/Categories";
 import { TProduct } from "@/types/Product";
 
@@ -7,15 +7,8 @@ export default function Home() {
 
     return (
         <div className="flex items-end justify-end">
-            <main className="w-full" >
-                <ProductPage
-                    product={products[0]}
-                    categories={categories}
-                    currency="AED"
-                    onAddToCartClick={(id, count) => console.log('Add to cart:', id, "\nCount: ", count)}
-                    onAddToWishlistClick={(id) => { console.log('Add to wishlist: ', id) }}
-                    onBuyNowClick={(id, count) => { console.log('buy now:', id, "\nCount: ", count) }}
-                />
+            <main className="p-[20px] py-20 w-full" >
+                <ListingPage products={products} categories={categories} currency="AED" onAddToCartClick={(productId, count) => { console.log(productId); console.log(count); }} onAddToWishlistClick={(productId) => { console.log(productId) }} isArabic />
             </main>
             <footer className=""></footer>
         </div>
@@ -131,7 +124,7 @@ const products: TProduct[] = [
         ],
         "productQuantity": 7,
         "reviews": "[{\"name\":\"John Doe\",\"phone\":\"+971504999602\",\"statusOrder\":\"Paid\",\"paid\":true,\"stars\":4,\"description\":\"Great service, fast delivery\"},{\"name\":\"Jane Smith\",\"phone\":\"+971507184116\",\"statusOrder\":\"Not Paid\",\"paid\":false,\"stars\":3,\"description\":\"Waiting for confirmation\"},{\"name\":\"Ali Ahmed\",\"phone\":\"+971504652569\",\"statusOrder\":\"Paid\",\"paid\":true,\"stars\":5,\"description\":\"Product was excellent!\"},{\"name\":\"Sara Al Mansoori\",\"phone\":\"+971509616229\",\"statusOrder\":\"Paid\",\"paid\":true,\"stars\":5,\"description\":\"Very satisfied with the order\"},{\"name\":\"Mohammed Ali\",\"phone\":\"+971503499333\",\"statusOrder\":\"Not Paid\",\"paid\":false,\"stars\":2,\"description\":\"Order is delayed\"},{\"name\":\"Fatima Zahra\",\"phone\":\"+971507475454\",\"statusOrder\":\"Paid\",\"paid\":true,\"stars\":4,\"description\":\"Good, but expected faster delivery\"},{\"name\":\"Omar Khalid\",\"phone\":\"+971555555747\",\"statusOrder\":\"Paid\",\"paid\":true,\"stars\":4,\"description\":\"Product was as expected\"},{\"name\":\"Layla Ahmed\",\"phone\":\"+971563220246\",\"statusOrder\":\"Not Paid\",\"paid\":false,\"stars\":3,\"description\":\"Not yet received\"},{\"name\":\"Ayesha Al Zayed\",\"phone\":\"+971524120000\",\"statusOrder\":\"Paid\",\"paid\":true,\"stars\":5,\"description\":\"Awesome quality and service\"},{\"name\":\"Khalid Saeed\",\"phone\":\"+971566681662\",\"statusOrder\":\"Paid\",\"paid\":true,\"stars\":3,\"description\":\"Received product, but packaging was damaged\"}]",
-        "description": "<p style=\"line-height: 2;\">For those who can't buy a perfume without trying it first and are hesitant to make a purchase, we've got the perfect solution for you! </p><p style=\"line-height: 2;\">We now offer a 6ml tester of the perfume. </p><p style=\"line-height: 2;\">Try it out, and we're sure you'll come back for the full bottle! </p><p style=\"line-height: 2;\">It's also perfect for travel— instead of carrying the full-sized bottle, you can pack the tester in any bag, saving space for your other essentials.</p><p></p>",
+        "description": "<p></p>",
         "showProductSales": false,
         "productSize": "0.2",
         "cost": 18.9,
@@ -160,9 +153,6 @@ const products: TProduct[] = [
         "images": [
             "https://firebasestorage.googleapis.com/v0/b/swipetapfreetrail.appspot.com/o/elbogshah%2Fproduct%2FOud%20Azraq%20Perfume%20Tester%2F1732025177993%2B1?alt=media&token=ebfd56ec-f21a-40d3-8b7f-421a00dad9e6",
             "https://firebasestorage.googleapis.com/v0/b/swipetapfreetrail.appspot.com/o/elbogshah%2Fproduct%2F%D8%AA%D8%B3%D8%AA%D8%B1%20%D8%A8%D8%B1%D9%83%D8%A9%20%D8%A3%D8%AC%D9%85%D9%84%2F1732015095815%2B1?alt=media&token=7cd2d693-a931-4230-9b93-5f9210f67301",
-            "https://firebasestorage.googleapis.com/v0/b/swipetapfreetrail.appspot.com/o/elbogshah%2Fproduct%2F1732024198697%2B1?alt=media&token=fad96ec2-c84e-4043-8963-4ef5679c075a",
-            "https://firebasestorage.googleapis.com/v0/b/swipetapfreetrail.appspot.com/o/elbogshah%2Fproduct%2F%D9%82%D8%B7%D9%86%20%D9%87%D9%86%D8%AF%D9%8A%20%D8%B2%D8%B1%D9%8A%2F1731138919827%2B1?alt=media&token=76d93442-17ca-4681-962e-94216f4d8dd2"
-
         ],
         "ribbon": "",
         "id": "1732025216184",

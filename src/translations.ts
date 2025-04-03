@@ -12,6 +12,13 @@ export const translations = {
         "in-stock": "In stock",
         "sold-out": "Sold out",
         "done": "Done",
+        "show-more": "Show more",
+        "show-less": "Show less",
+        "add-note": "Add Note",
+        "price": "Price",
+        "buy-now": "Buy Now",
+        "quantity": "Quantity",
+        "copied": "Copied",
     },
     ar: {
         "items": "منتجات",
@@ -26,5 +33,12 @@ export const translations = {
         "in-stock": "متوفر",
         "sold-out": "نفذت الكمية",
         "done": "تم",
+        "show-more": "عرض المزيد",
+        "show-less": "عرض أقل",
+        "add-note": "إضافة ملاحظة",
+        "price": "السعر",
+        "buy-now": "اشتري الآن",
+        "quantity": "الكمية",
+        "copied": "تم النسخ",
     }
 }
